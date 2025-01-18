@@ -1,4 +1,4 @@
-﻿const getMessagesUrl = 'https://functions.yandexcloud.net/d4e0h2dda9g8beeu01cq'
+﻿const getMessagesUrl = 'https://functions.yandexcloud.net/d4euj0e92okoq669fu2r'
 
 fetch(getMessagesUrl)
     .then(response => response.json())
