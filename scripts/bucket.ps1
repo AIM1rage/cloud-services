@@ -24,5 +24,8 @@ yc storage s3api put-object `
 Write-Host "Turning on website $name"
 
 yc storage bucket update --name $name `
+  --public-read
+
+yc storage bucket update --name $name `
   --public-read `
   --website-settings-from-file static/settings.json
