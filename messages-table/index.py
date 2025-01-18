@@ -1,5 +1,8 @@
 ﻿import os
 import ydb
+from dotenv import load_dotenv
+
+load_dotenv()
 
 endpoint = os.getenv("YDB_ENDPOINT")
 database = os.getenv("YDB_DATABASE")
