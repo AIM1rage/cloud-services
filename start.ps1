@@ -1,7 +1,6 @@
 ﻿param (
   [String]$serviceAccountName,
-  [String]$databaseName,
-  [String]$bucketName
+  [String]$databaseName
 )
 
 Write-Host "Creating service account..."
