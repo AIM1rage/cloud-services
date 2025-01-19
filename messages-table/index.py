@@ -6,7 +6,6 @@ load_dotenv()
 
 endpoint = os.getenv("YDB_ENDPOINT")
 database = os.getenv("YDB_DATABASE")
-auth_token = os.getenv("IAM_TOKEN")
 
 
 async def create_messages_table_async(pool: ydb.aio.QuerySessionPool):
@@ -38,11 +37,11 @@ async def insert_rows_into_messages_table_async(pool: ydb.aio.QuerySessionPool):
     )
 
 
-async def create_messages():
+async def create_messages(token):
     driver_config = ydb.DriverConfig(
         endpoint,
         database,
-        credentials=ydb.AuthTokenCredentials(auth_token),
+        credentials=ydb.AccessTokenCredentials(token),
         root_certificates=ydb.load_ydb_root_certificate(),
     )
     async with ydb.aio.Driver(driver_config) as driver:
@@ -59,7 +58,7 @@ async def create_messages():
 
 
 async def handler(event, context):
-    await create_messages()
+    await create_messages(context.token['access_token'])
     return {
         'statusCode': 201,
         'body': "Messages table created!",

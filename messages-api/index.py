@@ -6,7 +6,6 @@ load_dotenv()
 
 endpoint = os.getenv("YDB_ENDPOINT")
 database = os.getenv("YDB_DATABASE")
-auth_token = os.getenv("IAM_TOKEN")
 
 
 async def fetch_rows_from_messages_table_async(pool: ydb.aio.QuerySessionPool):
@@ -48,11 +47,11 @@ async def insert_rows_into_messages_table_async(pool: ydb.aio.QuerySessionPool):
     )
 
 
-async def get_messages():
+async def get_messages(token):
     driver_config = ydb.DriverConfig(
         endpoint,
         database,
-        credentials=ydb.AuthTokenCredentials(auth_token),
+        credentials=ydb.AccessTokenCredentials(token),
         root_certificates=ydb.load_ydb_root_certificate(),
     )
     async with ydb.aio.Driver(driver_config) as driver:
@@ -73,7 +72,7 @@ async def get_messages():
 
 
 async def handler(event, context):
-    messages = await get_messages()
+    messages = await get_messages(context.token['access_token'])
     return {
         'statusCode': 200,
         'body': messages,
