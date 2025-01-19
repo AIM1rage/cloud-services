@@ -47,11 +47,11 @@ async def insert_rows_into_messages_table_async(pool: ydb.aio.QuerySessionPool):
     )
 
 
-async def get_messages(token):
+async def get_messages():
     driver_config = ydb.DriverConfig(
         endpoint,
         database,
-        credentials=ydb.AccessTokenCredentials(token),
+        credentials=ydb.iam.MetadataUrlCredentials(),
         root_certificates=ydb.load_ydb_root_certificate(),
     )
     async with ydb.aio.Driver(driver_config) as driver:
@@ -72,7 +72,7 @@ async def get_messages(token):
 
 
 async def handler(event, context):
-    messages = await get_messages(context.token['access_token'])
+    messages = await get_messages()
     return {
         'statusCode': 200,
         'body': messages,

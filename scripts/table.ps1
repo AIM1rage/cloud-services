@@ -1,17 +1,8 @@
-﻿$envFilePath = ".env"
+﻿param (
+    [String]$serviceAccountId
+)
 
-Write-Host "Please enter IAM token: "
-
-do {
-    $iamToken = Read-Host
-} while ([string]::IsNullOrWhiteSpace($iamToken))
-
-# Write IAM_TOKEN parameter to .env file
-Add-Content -Path $envFilePath -Value "IAM_TOKEN=$iamToken"
-
-Write-Host ".env file updated with IAM_TOKEN=$iamToken"
-
-
+$envFilePath = ".env"
 
 Write-Host "Copying .env file to messages-table folder..."
 
@@ -42,6 +33,7 @@ yc serverless function version create `
   --entrypoint index.handler `
   --memory 128m `
   --execution-timeout 3s `
-  --source-path $archiveName
+  --source-path $archiveName `
+  --service-account-id $serviceAccountId
 
 yc serverless function allow-unauthenticated-invoke $functionName
