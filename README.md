@@ -27,3 +27,5 @@
 7. Наслаждайтесь деплоем!
 
 После выполнения всех шагов, проверьте [рабочий сайт](https://nekohtur.tech), чтобы убедиться в функционале
+
+![image](https://github.com/user-attachments/assets/adc1f694-ba0f-438d-b225-2c50256fb57a)
